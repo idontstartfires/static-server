@@ -1,0 +1,2 @@
+sass --load-path=style/scss --watch style/scss:style/css &
+go run ./src/serve.go
