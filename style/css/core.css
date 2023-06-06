@@ -1,9 +1,55 @@
-body {
-  background: #FED;
-  margin: 2rem;
+/* HACK */
+@font-face {
+  font-family: "Hack";
+  font-weight: 700;
+  font-style: normal;
+  src: url("/asset/font/Hack/Bold.ttf");
 }
-body p {
-  text-indent: 2rem;
+@font-face {
+  font-family: "Hack";
+  font-weight: 600;
+  font-style: normal;
+  src: url("/asset/font/Hack/BoldItalic.ttf");
+}
+@font-face {
+  font-family: "Hack";
+  font-weight: 500;
+  font-style: normal;
+  src: url("/asset/font/Hack/Regular.ttf");
+}
+@font-face {
+  font-family: "Hack";
+  font-weight: 100;
+  font-style: normal;
+  src: url("/asset/font/Hack/Italic.ttf");
+}
+:root {
+  font-family: Hack;
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+}
+
+h1 {
+  font-size: 4rem;
+  font-family: Recoleta;
+}
+
+[noselect] {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+button {
+  border: none;
+  background: none;
 }
 
 /*# sourceMappingURL=core.css.map */

@@ -1,0 +1,50 @@
+@use "sass:map";
+@use "sass:meta";
+
+@use "themes/main" as theme;
+
+
+@function get($name)
+{
+    @if map-has-key(theme.$map, $name) {
+        @return map-get(theme.$map, $name);
+    }
+    @else {
+        @return $name;
+    }
+}
+
+@mixin background($name: 'none')
+{
+    background-color:   get($name);
+}
+
+@mixin placeholder
+{
+    &::-webkit-input-placeholder {@content}
+    &:-moz-placeholder           {@content}
+    &::-moz-placeholder          {@content}
+    &:-ms-input-placeholder      {@content}
+}
+
+@mixin foreground($name: 'none')
+{
+    $color: get($name);
+    color: $color;
+    -webkit-text-fill-color: $color;
+    fill: $color;
+}
+
+@each $name, $hex in theme.$map
+{
+    [back='#{$name}'] {
+        background:   $hex !important;
+    }
+    [fore='#{$name}'] {
+        color:        $hex !important;
+        -webkit-text-fill-color: $hex !important;
+    }
+    [bord='#{$name}'] {
+        border-color: $hex !important;
+    }
+}

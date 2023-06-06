@@ -1,0 +1,29 @@
+@use "lib/color";
+@use "lib/border";
+
+select {
+    all: unset;
+    cursor: pointer;
+    &:disabled {
+        cursor: unset;
+    }
+    option {
+        all: unset;
+    }
+}
+
+select-input {
+    select {
+        font-size: 1em;
+        line-height: 2.25em;
+        padding: 0 0.75em;
+        height: auto;
+        flex: 1 1;
+        optgroup {
+            @include color.foreground('brown');
+        }
+        option {
+            @include color.foreground('green');
+        }
+    }
+}

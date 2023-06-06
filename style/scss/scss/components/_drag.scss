@@ -1,0 +1,33 @@
+@use "lib/flow";
+@use "lib/color";
+@use "lib/border";
+
+drag-list[field] {
+    values {
+        @include color.background('eggshell');
+        @include border.shadow('none');
+        @include flow.grid-row(4em 1fr max-content, $gap: 1em);
+        padding: 1em;
+        div {
+            @include flow.descending($gap: 1em);
+            index {
+                font-size: 1em;
+                text-align: center;
+                margin: 0;
+            }
+            index, drag-item {
+                @include color.background('white');
+            }
+        }
+    }
+
+    drag-item {
+        @include color.foreground('green');
+        @include border.shadow('green');
+        padding: 0 1em;
+        cursor: pointer;
+        * {
+            pointer-events: none;
+        }
+    }
+}

@@ -2,9 +2,10 @@ package main
 
 import "log"
 import "os"
+import "time"
 import "strings"
 import "net/http"
-import "github.com/fsnotify/fsnotify"
+import "github.com/radovskyb/watcher"
 import "github.com/alexandrevicenzi/go-sse"
 
 type ServerEvent = struct {
@@ -13,51 +14,29 @@ type ServerEvent = struct {
 }
 
 func main() {
-    styleServer := http.FileServer(http.Dir("./style/css"))
-    http.Handle("/style/", http.StripPrefix("/style/", styleServer))
+    http.Handle("/style/", FileServer("/style/", "./style/css/"))
+    http.Handle("/asset/", CrossOriginFileServer("/asset/", "./asset/"))
+    http.Handle("/script/", CrossOriginFileServer("/script/", "./script/"))
+    http.Handle("/html/", FileServer("/html/", "./html/"))
 
-    assetServer := http.FileServer(http.Dir("./asset"))
-    http.Handle("/asset/", http.StripPrefix("/asset/", assetServer))
-
-    http.HandleFunc("/script/reload.js", func(w http.ResponseWriter, r *http.Request) {
-        w.Header().Set("Access-Control-Allow-Origin", "http://localhost")
-        http.ServeFile(w, r, "./script/reload.js")
-    })
-
-    http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
-        http.ServeFile(w, r, "./html/test.html")
-    })
-
-    
     sseServer := StartSseServer()
     defer sseServer.Shutdown()
     sseEvents := make(chan ServerEvent)
 
     go func() {
-        for {
-            event, ok := <- sseEvents
-            if !ok {
-                return
-            }
+        for event := range sseEvents {
             sseServer.SendMessage(event.channel, sse.SimpleMessage(event.message))
         }
     }()
-    watcher := StartWatcher(sseEvents) 
-    defer watcher.Close()
+    w := StartWatcher(sseEvents) 
+    defer w.Close()
     go func() {
-        for {
-            event, ok := <-watcher.Events
-            if !ok {
-                return
-            }
-            if event.Has(fsnotify.Write) {
-                OnFileWrite(event.Name, sseEvents) 
-            }
+        if err := w.Start(time.Millisecond * 100); err != nil {
+            log.Fatalln(err)
         }
     }()
 
-
-    log.Println("starting server on port 3000")
+    log.Println("starting server on port localhost:3000")
     err := http.ListenAndServe(":3000", nil)
     if err != nil {
         log.Fatal(err)
@@ -66,13 +45,29 @@ func main() {
 
 }
 
+func FileServer(route string, path string) http.Handler {
+    server := http.FileServer(http.Dir(path))
+    return http.StripPrefix(route, server)
+}
+
+func CrossOriginFileServer(route string, path string) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Add("Access-Control-Allow-Origin", "*")
+        w.Header().Add("Access-Control-Allow-Methods", "GET, OPTIONS")
+        w.Header().Add("Access-Control-Allow-Headers", "Keep-Alive,X-Requested-With,Cache-Control,Content-Type,Last-Event-ID")
+        server := http.FileServer(http.Dir(path))
+        server = http.StripPrefix(route, server)
+        server.ServeHTTP(w, r)
+    }
+}
+
 func StartSseServer() *sse.Server {
     s := sse.NewServer(&sse.Options{
 		// Increase default retry interval to 10s.
 		RetryInterval: 10 * 1000,
 		// CORS headers
 		Headers: map[string]string{
-            "Access-Control-Allow-Origin":  "http://localhost",
+            "Access-Control-Allow-Origin":  "*",
 			"Access-Control-Allow-Methods": "GET, OPTIONS",
 			"Access-Control-Allow-Headers": "Keep-Alive,X-Requested-With,Cache-Control,Content-Type,Last-Event-ID",
 		},
@@ -87,29 +82,42 @@ func StartSseServer() *sse.Server {
     return s
 }
 
-func StartWatcher(sseEvents chan ServerEvent) *fsnotify.Watcher {
-    watcher, err := fsnotify.NewWatcher()
-    if err != nil {
-        log.Fatal(err)
+func StartWatcher(sseEvents chan ServerEvent) *watcher.Watcher {
+    w := watcher.New()
+    w.SetMaxEvents(1)
+    w.FilterOps(watcher.Write)
+
+    if err := w.AddRecursive("./style/css"); err != nil {
+        log.Fatalln(err)
     }
 
+    go func() { 
+        for {
+			select {
+                case event := <-w.Event:	
+                    OnFileWrite(event.Path, sseEvents);
+                case err := <-w.Error:
+                    log.Fatalln(err)
+                case <-w.Closed:
+                    return
+            }
+		}
+    }()
     
 
-    err = watcher.Add("./style/css")
-    if err != nil {
-        log.Fatal(err)
-    }
-    return watcher
+
+    return w
 }
 
 func OnFileWrite(path string, sseEvents chan ServerEvent) {
     if filename, ok := ParseCSSPath(path); ok {
+        log.Println(filename)
         sseEvents <- ServerEvent{"/event/style", filename}
     }
 }
 
 func ParseCSSPath(path string) (string, bool) {
-    if filename, ok := strings.CutPrefix(path, "style/css/"); ok {
+    if _, filename, ok := strings.Cut(path, "style/css/"); ok {
         if !strings.HasSuffix(filename, ".map") {
             return filename, true
         }

@@ -1,0 +1,61 @@
+@use "lib/flow";
+@use "lib/color";
+@use "lib/border";
+
+date-picker {
+    font-size: 2rem;
+    z-index: 5;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    @include color.background('eggshell');
+    @include border.shadow('green', $spread: 2px);
+    .date-picker-bar {
+        height: 15%;
+        padding: 0.5em 1em;
+        @include flow.grid-row(16em 12em 3em, $gap: 0.5em);
+        //@include color.background('white');
+        select, input, button {
+            @include color.foreground('green');
+            @include color.background('white');
+            @include border.shadow('green');
+            text-align: center;
+            padding: 0.5em;
+        }
+        select:hover, input:hover {
+            @include color.foreground('brown');
+            @include border.shadow('tan');
+        }
+
+    }
+    .date-picker-headers {
+        padding: 0 1em;
+        height: 2em;
+            @include flow.grid-row(repeat(7, 1fr), $gap: 0.25em);
+        .header {
+            @include color.background('green');
+            @include color.foreground('white');
+            text-align: center;
+            line-height: 2em;
+            margin: 0;
+        }
+    }
+    .date-picker-calendar {
+        padding: 0.5em 1em 1em 1em;
+        @include flow.flex($dir: column, $gap: 0.5em);
+        .date-picker-week {
+            @include flow.grid-row(repeat(7, 1fr), $gap: 0.25em);
+            button {
+                height: 2em;
+                text-align: center;
+                @include color.background('white');
+                @include color.foreground('green');
+                @include border.shadow('green');
+                &:hover {
+                    @include color.foreground('brown');
+                @include border.shadow('tan');
+                }
+            }
+        }
+    }
+}

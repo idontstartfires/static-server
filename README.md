@@ -1,5 +1,5 @@
-# Static File Server
-Simple project for me to learn go. 
+# The Dodo Server
+Serves files more static than an extinct, flightless bird
 
 Features:
 - simple static style and asset server

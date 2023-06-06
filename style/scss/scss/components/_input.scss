@@ -1,0 +1,182 @@
+@use "lib/flow";
+@use "lib/color";
+@use "lib/border";
+
+input {
+    all: unset;
+}
+
+text-input, pass-input, number-input {
+    input {
+        padding: 0 0.75em;
+    }
+}
+
+adjust-input {
+    input, button {
+        text-align: center;
+    }
+    button {
+        min-width: 3em;
+        &:hover {
+            @include color.foreground('brown');
+        }
+    }
+    input {
+        flex: 1 1;
+        padding: 0 1em;
+    }
+}
+
+qty-input {
+    values {
+        @include flow.grid-row(1fr minmax(6rem, max-content));
+    }
+    input.value {
+        text-align: right;
+        padding: 0 0.5em 0 0.75em;
+    }
+    select.unit {
+        text-align: left;
+        padding: 0 0.75em 0 0.5em;
+    }
+}
+
+qty-range-input {
+    values {
+        @include flow.grid-row(1fr 1em 1fr minmax(6rem, max-content));
+    }
+    input.minimum {
+        text-align: right;
+        padding: 0 0 0 0.75em;
+    }
+    input.dash {
+        text-align: center;
+    }
+    input.maximum {
+        text-align: left;
+        padding: 0 0.5em 0 0;
+    }
+    select.unit {
+        text-align: left;
+        padding: 0 0.75em 0 0.5em;
+    }
+}
+
+qty-fraction-input {
+    values {
+        @include flow.grid-row(1fr 1em 1fr minmax(6rem, max-content));
+    }
+    input.left {
+        text-align: center;
+        padding-left: 0.5em;
+    }
+    input.right {
+        text-align: center;
+        padding-right: 0.25em;
+    }
+    select.unit {
+        text-align: left;
+        padding: 0 0.5em 0 0.25em;
+    }
+}
+
+percent-input {
+    values {
+        @include flow.grid-row(1fr 2em);
+    }
+    input.value {
+        text-align: right;
+        padding: 0 0.5em 0 0.75em;
+    }
+    input.unit {
+        text-align: left;
+        padding-left: 0.5em;
+    }
+}
+
+conv-input {
+    values {
+        @include flow.grid-row(1fr 3em 1em 3em);
+    }
+    input.factor {
+        text-align: right;
+        padding: 0 0.5em 0 0.75em;
+    }
+    select.unit_out {
+        text-align: right;
+    }
+    input.slash {
+        text-align: center;
+    }
+    select.unit_in {
+        text-align: left;
+        padding-right: 0.5em;
+    }
+}
+
+price-input {
+    values {
+        @include flow.grid-row(3rem 1fr);
+    }
+    select.unit {
+        text-align: right;
+        padding: 0 0 0 0.75em;
+    }
+    input.value {
+        text-align: left;
+        padding: 0 0.75em 0 0.5em;
+    }
+}
+
+date-input {
+    input.year {
+        text-align: right;
+        padding: 0 0.5em;
+    }
+    input.month {
+        text-align: center;
+        min-width: 2em;
+        padding: 0 0.5em;
+    }
+    input.day {
+        text-align: left;
+        padding: 0 0.5em;
+    }
+    input.slash {
+        text-align: center;
+        width: 0.5em;
+    }
+    button {
+        min-width: 2.5em;
+        text-align: center;
+        margin-left: auto;
+    }
+}
+
+time-input {
+    input.hours {
+        text-align: right;
+        padding-left: 0.75rem;
+    }
+    input.minutes {
+        text-align: center;
+    }
+    input.seconds {
+        text-align: left;
+        padding-right: 0.75rem;
+    }
+    input.colon {
+        text-align: center;
+        width: 0.5em;
+    }
+}
+
+file-input {
+    label.facade {
+        font-size: 1em;
+        padding: 0 0.5em;
+        text-align: center;
+        line-height: 2.25em;
+    }
+}

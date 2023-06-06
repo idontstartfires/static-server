@@ -1,0 +1,17 @@
+@use "sass:map";
+
+
+$map: (
+    "yellow":    #FEDA16,
+    "cyan":      #06C7F2,
+    "eggshell":  #FDF2D6,
+    "red":       #F23307,
+    "tan":       #FFC186,
+    "blue":      #1A3292,
+    "green":     #3e3f20,
+    "brown":     #CE6631,
+    "purple":    #7E31CF,
+    "white":     #FFFCF3,
+    "none":      rgba(0,0,0,0),
+);
+

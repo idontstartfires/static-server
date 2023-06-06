@@ -1,0 +1,31 @@
+//@use "color";
+@use "font";
+
+:root {
+    font-family: Hack;
+    font-size: 8px;
+    white-space: nowrap;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+
+h1 {
+    font-size: 4rem;
+    font-family: Recoleta;
+}
+
+[noselect] {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+button {
+    border: none;
+    background: none;
+}

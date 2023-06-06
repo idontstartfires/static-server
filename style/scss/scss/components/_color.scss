@@ -1,0 +1,56 @@
+@use "lib/flow";
+@use "lib/color";
+@use "lib/border";
+
+color-hex {
+    values {
+        @include flow.grid-row(8em minmax(4em, 1fr));
+    }
+    input.hex {
+        padding: 0 1em;
+        text-align: center;
+    }
+    input[type="color"] {
+        flex: 1 1;
+        @include border.simple('green', 0 0 0 1px);
+    }
+    &:hover span.swatch {
+        border-color: color.get('tan');
+    }
+}
+
+status-color {
+    @include border.shadow('green');
+}
+
+color-input {
+    @include flow.grid-column(1em 1fr);
+    @include color.foreground('green');
+    font-size: 3rem;
+    label.field-label {
+        text-align: left;
+        margin: 0 1em;
+        font-size: 0.75em;
+        line-height: 1.5em;
+    }
+    values {
+        display: grid;
+        input[type="color"] {
+            grid-area: 1/1/1/1;
+            border: unset;
+        }
+        label.hex {
+            font-size: 1em;
+            line-height:2.25em;
+            pointer-events: none;
+            grid-area: 1/1/1/1;
+            margin: auto;
+            &.light {
+                @include color.foreground(white);
+            }
+            &.dark {
+                @include color.foreground(black);
+            }
+        }
+    }
+}

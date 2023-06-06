@@ -1,0 +1,57 @@
+@use "lib/flow";
+@use "lib/color";
+@use "lib/border";
+
+field, [field] {
+    @include flow.grid-column(1fr);
+    @include color.foreground('green');
+    align-self: center;
+    label {
+        text-align: left;
+        margin: 0 1em;
+        font-size: 0.75em;
+        line-height: 1.5em;
+    }
+    input, select, butt {
+        font-size: 1em;
+        line-height: 2.25em;
+        width: auto;
+    }
+    a {
+        text-align: center;
+        line-height: normal;
+    }
+    values {
+        @include flow.flex($justify: flex-start);
+        @include color.background('white');
+        @include border.shadow('green');
+        pointer-events: none;
+        * {
+            pointer-events: auto;
+        }
+        &:hover {
+            @include border.shadow('tan');
+        }
+        *:hover {
+            @include color.foreground('brown');
+        }
+        *:disabled, input:read-only, span.breaker{
+            pointer-events: none;
+        }
+        input[type=color] {
+            pointer-events: auto;
+        }
+        span.breaker {
+            text-align: center;
+            width: 1em;
+            line-height: 2.25em;
+        }
+    }
+    &.highlight-red {
+        values {
+            @include color.foreground('red');
+            @include border.shadow('red');
+        }
+    }
+}
+

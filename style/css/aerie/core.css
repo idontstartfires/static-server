@@ -1,0 +1,10 @@
+body {
+  background: red;
+}
+body button {
+  margin: 1rem;
+  background: white;
+  box-shadow: 0 1px 1px 1rem blue;
+}
+
+/*# sourceMappingURL=core.css.map */

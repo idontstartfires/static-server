@@ -1,0 +1,24 @@
+@use 'lib/flow';
+@use 'lib/color';
+@use 'lib/border';
+
+p.command-history {
+    height: 20em;
+    padding: 0.5em 1em;
+    @include border.shadow('green');
+    @include color.background('white');
+    overflow-y: scroll;
+    div.line {
+        width: 100%;
+        height: 2em;
+        line-height: 2em;
+        @include color.foreground('green');
+    }
+    div.error {
+        @include color.foreground('red');
+        font-weight: bold;
+    }
+    div.command {
+        font-weight: bold;
+    }
+}

@@ -1,0 +1,19 @@
+//@use "color";
+
+@mixin simple($color: 'none', $width: unset, $radius: unset)
+{
+    border-color: $color;
+    border-style: solid;
+    border-width: $width;
+    border-radius: $radius;
+}
+
+@mixin shadow($color, $x: 0, $y: 1px, $blur: 1px, $spread: 1px, $inset: false)
+{
+    @if $inset {
+        box-shadow: $x $y $blur $spread $color inset;
+    }
+    @else {
+        box-shadow: $x $y $blur $spread $color;
+    }
+}

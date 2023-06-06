@@ -1,0 +1,10 @@
+@use "border";
+
+body {
+    background: red;
+    button {
+        margin: 1rem;
+        background: white;
+        @include border.shadow(blue, $spread: 1rem);
+    }
+}

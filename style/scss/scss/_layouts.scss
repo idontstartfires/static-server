@@ -1,0 +1,99 @@
+@use "flow";
+@use "color";
+@use "position";
+@use "border";
+
+$width: 6rem;
+$nav-button-size: 4rem;
+
+main {
+    height: 100vh;
+    width: 100vw;
+}
+
+div#sidebar {
+    z-index: 50;
+    @include position.fixed(0, auto, 2rem, 0);
+    width: $width;
+    @include color.background("eggshell");
+    border-radius: 0 0 2rem 2rem;
+    display: grid;
+    grid-template-rows: $width 1fr calc($width/1.5);
+
+    @include border.shadow('green');
+
+    nav-head {
+        font-size: 4rem;
+        text-align: center;
+        vertical-align: middle;
+        font-family: recoleta;
+        width: $width;
+    }
+
+    nav {
+        display: grid;
+        grid-auto-rows: 3rem; 
+        grid-gap: 1rem;
+        nav-button {
+            position: relative;
+            font-size: 2rem;
+            display: grid;
+            grid: 1fr / auto-flow;
+            a {
+                display: flex;
+                align-items: center;
+                height: 100%;
+                width: $width;
+                i {
+                    @include color.foreground("green");
+                }
+                &:hover {
+                    @include color.background("tan");
+                    @include border.shadow('brown');
+                    z-index: 52;
+                }
+            }
+            &[open]>a {
+                @include border.shadow('green');
+                z-index: 51;
+            }
+            div.drawer {
+                position: relative;
+                //z-index: 49;
+                display: none;
+                height: 100%;
+                &[open] {
+                    width: max-content;
+                    display: grid;
+                    //grid-gap: 1rem;
+                    grid: 1fr / auto-flow;
+                    @include color.background('eggshell');
+                    @include border.shadow('green');
+                }
+            }
+        }
+    }
+
+    img#logo {
+        //margin: 2rem auto 0 auto;
+        padding: 1rem;
+        width: calc($width - 2rem);
+        height: auto;
+    }
+}
+
+
+
+div#main {
+    @include position.fixed(0, 0, 0, $width);
+    h1 {
+        margin: 2rem;
+    }
+    button {
+        margin: 2rem;
+        @include color.foreground('green');
+        @include color.background('eggshell');
+        //@include border(none);
+        @include border.shadow('green');
+    }
+}

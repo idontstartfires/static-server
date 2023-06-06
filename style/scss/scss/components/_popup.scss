@@ -1,0 +1,131 @@
+@use "lib/color";
+@use "lib/border";
+@use "lib/position";
+
+#main {
+    .popup {
+        @include position.fixed(0, 0, 0, 0);
+        @include color.background(rgba(10, 10, 10, 0.3));
+        z-index: 2;
+        .box {
+            position: fixed;
+            top: 5vh;
+            height: 90vh;
+            left: 15vw;
+            width: 80vw;
+            //@include color($back: 'yellow', $fore: 'green');
+            //@include flex($dir: column);
+            .title {
+                height: 10%;
+                font-family: Recoleta;
+                font-weight: bold;
+                font-size: 32px;
+            }
+            .body {
+                height: 75%;
+                width: 90%;
+                margin: 0 auto;
+                //@include color($back: 'eggshell', $fore: 'green');
+                //@include flex($dir: column, $justify: flex-start);
+                .line {
+                    //@include flex;
+                    padding: 4px 0;
+                }
+                .header {
+                    //@include color($fore: 'green')
+                }
+            }
+            .butts {
+                height: 10%;
+                width: 90%;
+                margin: 0 auto;
+                //@include flex;
+                //@include color($back: 'eggshell');
+                border-radius: 0 0 16px 16px;
+                .butt {
+                    flex: 1 1;
+                    .confirm {
+                        //@include color($back: 'cyan', $fore: 'eggshell', $bord: 'eggshell',
+                        //               $hover: ('back': 'cyan', 'fore': 'eggshell', 'bord': 'cyan'));
+                        //@include border(8px);
+                        border-radius: 16px;
+                    }
+                    .cancel {
+                        //@include color($back: 'red', $fore: 'eggshell', $bord: 'eggshell',
+                        //               $hover: ('back': 'red', 'fore': 'eggshell', 'bord': 'red'));
+                        //@include border(8px);
+                        border-radius: 16px;
+                    }
+                }
+            }
+        }
+        .big-icon {
+            //@include flex($justify: center);
+            height: 100%;
+            div {
+                //@include flex($dir: column, $justify: center);
+                i {
+                    font-size: 128px;
+                    //@include color($fore: 'white');
+                }
+            }
+        }
+    }
+}
+
+
+#loading-popup {
+    //@include color;
+    @include position.fixed($top: 20vh, $bottom: 20vh, $left: 35vw, $width: 55vh);
+    &>div {
+        @include color.background('eggshell');
+        @include color.foreground('green');
+        position: absolute;
+    }
+    .left-side {
+        @include position.absolute($top: 0, $left: 0, $height: 91.5%, $width: 25%);
+        border-radius: 4vh 4vh 0 4vh;
+        div.loading-empty {
+            @include color.background('white');
+            @include position.absolute($bottom: 23%, $left: 24%, $height: 32%, $width: 56%);
+            border-radius: 4vh;
+            //animation: load-fill 1s infinite linear;
+        }
+        div.loading-fill {
+            @include color.background('green');
+            @include position.absolute($bottom: 23%, $left: 24%, $height: 32%, $width: 56%);
+            border-radius: 4vh;
+            animation: load-fill 500ms infinite linear;
+        }
+        @keyframes load-fill {
+          from {
+              height: 10%;
+          }
+          to {
+              height: 32%;
+          }
+        }
+    }
+    .right-side {
+        top: 20%; left: 25%;
+        height: 71.5%; width: 75%;
+        border-radius: 0 4vh 0 0;
+        label {
+            @include position.absolute($top: 10%, $left: 12%);
+            font-family: Recoleta;
+            font-weight: bold;
+            font-size: 8rem;
+        }
+    }
+    .bottom-tag {
+        bottom: 0; right: 0;
+        height: 8.5%; width: 30%;
+        border-radius: 0 0 4vh 4vh;
+        img {
+            position: absolute;
+            top: 20%; left: 30%;
+            height: 2vh;
+        }
+    }
+
+}

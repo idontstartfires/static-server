@@ -1,0 +1,53 @@
+
+@mixin flex($dir: row, $justify: center, $align: stretch,
+            $space: flex-start, $wrap: nowrap, $gap: 0)
+{
+    display: flex;
+    flex-flow: $dir $wrap;
+    justify-content: $justify;
+    align-items: $align;
+    align-content: $space;
+    gap: $gap;
+}
+
+.flex-wide {
+    flex: 1 1 !important;
+}
+
+.flex-narrow {
+    flex: 0 0 !important;
+}
+
+@mixin grid-column($heights, $width: 1fr, $gap: 0)
+{
+    display: grid;
+    grid-template-rows: $heights;
+    grid-auto-columns: $width;
+    grid-gap: $gap;
+}
+
+@mixin grid-row($widths, $height: 1fr, $gap: 0)
+{
+    display: grid;
+    grid-template-columns: $widths;
+    grid-auto-rows: $height;
+    grid-gap: $gap;
+}
+
+@mixin descending($height: max-content, $width: 1fr, $gap: 0)
+{
+    display: grid;
+    grid-auto-flow: row;
+    grid-auto-rows: $height;
+    grid-template-columns: $width;
+    grid-gap: $gap;
+}
+
+@mixin across($width: max-content, $height: 1fr, $gap: 0)
+{
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: $width;
+    grid-template-rows: $height;
+    grid-gap: $gap;
+}
